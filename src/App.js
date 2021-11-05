@@ -1,73 +1,39 @@
 import './App.css';
 import * as React from 'react';
-import getCompanyProfile from './API/symbol';
-import { map } from 'lodash';
+import ProfilePage from './component/ProfilePage';
+import WatchlistPage from './component/WatchlistPage';
+import QuotesPage from './component/QuotesPage';
 
 function App() {
-  const [symbol, setSymbol] = React.useState("");
-  const [results, setResults] = React.useState();
-
-  const formSubmit = async (e) => {
+  const [selectedPage, setSelectedPage] = React.useState("profile")
+  const handleMenuOptionClick = (e) => {
     e.preventDefault();
-    if (symbol && symbol.length > 0) {
-      const searchResult = await getCompanyProfile(symbol);
-      setResults(searchResult.data);
-    }
-    else {
-      alert("Please enter a symbol");
-    }
+    setSelectedPage(e.target.value)
   }
 
-  const handleClearInputClick = () => {
-    setSymbol("");
-  }
+  const isProfilePageButtonDisabled = selectedPage && selectedPage === "profile";
+  const isWatchlistPageButtonDisabled = selectedPage && selectedPage === "watchlist";
+  const isQuotesPageButtonDisabled = selectedPage && selectedPage === "quotes";
 
-  const handleClearResultsClick = () => {
-    setResults()
-  }
-
-  const handleSymbolInput = (e) => {
-    setSymbol(e.target.value);
-  }
-
-  console.log(results);
   return (
     <div className="App">
-      <form onSubmit={formSubmit}>
-        <div>
-          <label>
-            Symbol:
-            <input type='text' value={symbol} onChange={handleSymbolInput} />
-          </label>
-        </div>
-        <div>
-          <button type='submit'>Submit</button>
-          <button type='button' onClick={handleClearInputClick}>clear input</button>
-        </div>
-      </form>
-      <button type='button' onClick={handleClearResultsClick}>Clear result</button>
-      <div>
-        {results && (
-          <div>
-            <div>Symbol: {results.symbol}</div>
-            {map(results.quoteList, quote => {
-              return (
-                <div>
-                  <div>
-                    Date: {quote.date}
-                  </div>
-                  <div>
-                    Price: {quote.price}
-                  </div>
-                  <div>
-                    Volume: {quote.volume}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        )}
+      <div className="app-menu">
+        <h1 className="header">Modern Trading Platform</h1>
+        <span>
+          <button value="profile" className="menu-option" disabled={isProfilePageButtonDisabled} onClick={handleMenuOptionClick}>Profile</button>
+          <button value="watchlist" className="menu-option" disabled={isWatchlistPageButtonDisabled} onClick={handleMenuOptionClick}>Watchlist</button>
+          <button value="quotes" className="menu-option" disabled={isQuotesPageButtonDisabled} onClick={handleMenuOptionClick}>Quotes</button>
+        </span>
       </div>
+      {isProfilePageButtonDisabled &&
+        <ProfilePage />
+      }
+      {isQuotesPageButtonDisabled &&
+        <QuotesPage />
+      }
+      {isWatchlistPageButtonDisabled &&
+        <WatchlistPage />
+      }
     </div>
   );
 }

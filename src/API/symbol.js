@@ -1,7 +1,14 @@
 import axios from 'axios';
 
-const getCompanyProfile = async (stockSymbol) => {
-    return await axios.get(`http://localhost:8080/company-profile/${stockSymbol}`)
+const getSymbolProfile = async (ticker) => {
+    const config = {
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        }
+    }
+    return await axios.get(
+        `http://localhost:8082/symbol-profile/${ticker}`, config
+    )
 }
 
-export default getCompanyProfile
+export default getSymbolProfile

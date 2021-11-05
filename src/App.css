@@ -28,7 +28,28 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
+.app-menu {
+  background-color: #a9a9a9;
+}
+.header {
+   width: 100%;
+   margin-top: 0px;
+}
+
+.menu-option {
+max-width: 100%;
+width: 33.33%;
+margin: 0;
+border: 1px #e9e9e9 solid;
+}
+
+.menu-option:disabled {
+  background-color: #87ceeb;
+  border-color: #57acc5;
+  }
+
+
+  @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
